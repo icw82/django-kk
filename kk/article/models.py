@@ -2,9 +2,9 @@ import datetime
 from django.db import models
 from ckeditor_uploader.fields import RichTextUploadingField
 
-from ..base import models as grimo
+from ..base import models as kk
 
-class BasicArticle(grimo.Base):
+class BasicArticle(kk.Base):
     headline = models.CharField(
         'Заголовок',
         max_length = 255,

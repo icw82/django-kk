@@ -45,9 +45,9 @@ class GalleryAdminWidget(forms.FileInput):
 
             try:
                 output = (
-                    '<div class="grimo-thumbnail">'
-                    '<a class="grimo-thumbnail__link" href="%s" target="_blank">'
-                    '<img class="grimo-thumbnail__image" src="%s"></a>'
+                    '<div class="kk-thumbnail">'
+                    '<a class="kk-thumbnail__link" href="%s" target="_blank">'
+                    '<img class="kk-thumbnail__image" src="%s"></a>'
                     '<br />%s'
                     '</div>'
                 ) % (value.url, thumb.url, output)

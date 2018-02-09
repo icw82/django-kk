@@ -2,12 +2,12 @@
 Kenzo Kit for Django
 ====================
 
-Dscrptn
+Базовые модели и вьюшки для нормального REST API
 
 Quick start
 -----------
 
-Add “kk” to your INSTALLED_APPS setting like this::
+Add "kk" to your INSTALLED_APPS setting like this::
 
     INSTALLED_APPS = [
         ...

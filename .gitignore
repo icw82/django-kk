@@ -1,0 +1,17 @@
+*~
+*#
+
+*.log
+*.py[cod]
+__pycache__
+
+*.db
+*.DS_Store
+*.sqlite3
+.vscode
+
+dist
+/*.egg-info/
+
+/env
+/env-*

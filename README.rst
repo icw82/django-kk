@@ -2,7 +2,7 @@
 Kenzo Kit for Django
 ====================
 
-Базовые модели и вьюшки для нормального REST API
+Basic model and views for the simple REST API
 
 Quick start
 -----------

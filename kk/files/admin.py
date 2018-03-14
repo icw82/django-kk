@@ -4,7 +4,6 @@ from kk.base.admin import BaseAdmin
 
 from .models import *
 
-@admin.register(File)
 class FileAdmin(BaseAdmin):
     fields = (
         'status',

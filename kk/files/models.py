@@ -24,6 +24,7 @@ class File(Ordered):
             return self.file.name
 
     class Meta:
+        abstract = True
         ordering = ['-name']
         verbose_name = 'файл'
         verbose_name_plural = 'Все файлы'

@@ -10,7 +10,7 @@ from sorl.thumbnail import get_thumbnail
 
 
 class ImageWidget(ClearableFileInput):
-    template_name = 'admin/widgets/image.html'
+    template_name = 'kk/widgets/image.html'
 
 #    def render(self, name, value, attrs = None, renderer = None):
 ##        get_thumbnail(obj.image, '150x150')

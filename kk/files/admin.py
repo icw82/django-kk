@@ -17,5 +17,3 @@ class FileAdmin(BaseAdmin):
         'position',
         'status',
     )
-
-    readonly_fields = ['type']

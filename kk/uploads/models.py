@@ -1,10 +1,10 @@
 import datetime
 from django.db import models
 
-from ..base import models as base
+from ..base.models import Base, PositionMixin
 
 
-class UploadBase(base.Ordered):
+class UploadBase(PositionMixin, Base):
     upload_date = models.DateTimeField(
         'Время загрузки',
         default = datetime.datetime.now

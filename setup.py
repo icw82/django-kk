@@ -68,9 +68,11 @@ CLASSIFIERS = [
 INSTALL_REQUIREMENTS = [
     'Django>=2.0,<3.0',
     'django-ckeditor>=5.3,<6',
+    'django-mptt>=0.9,<1',
     'Pillow>=5',
-    'PyYAML>=3.12,<4',
+#    'PyYAML>=3.12,<4',
     #'Markdown2>=2.3,<3',
+    #'django-nested-admin>=3.0.21,<4',
     'sorl-thumbnail>=12.4.1,<13'
 ]
 

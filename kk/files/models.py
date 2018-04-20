@@ -2,9 +2,9 @@ from datetime import datetime
 
 from django.db import models
 
-from ..base.models import Ordered
+from ..base.models import Base, PositionMixin
 
-class File(Ordered):
+class File(PositionMixin, Base):
     file = models.FileField(
         verbose_name = 'Файл',
         upload_to = 'uploads/%Y/%m/'

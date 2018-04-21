@@ -237,6 +237,9 @@ class BaseAPI(generic.View):
 #                print(key)
 
             if len(path) == 0:
+                if isinstance(value, datetime.date):
+                    return(value.isoformat())
+
                 if isinstance(value, datetime.time):
                     return(value.isoformat())
 

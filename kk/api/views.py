@@ -47,7 +47,7 @@ class Stream:
             self.client_params[key] = type(value)
 
 
-def convert_to_json(method):
+def convertToJSON(method):
     def wrapper(self, HttpRequest, **kwargs):
         stream = method(self, HttpRequest, **kwargs)
 
@@ -108,7 +108,7 @@ class BaseAPI(generic.View):
 
     available_filters = []
     dynamic_filters = {}
-    def get_filters(self, stream):
+    def getFilters(self, stream):
         filters = {
             'status': True,
         }
@@ -147,10 +147,10 @@ class BaseAPI(generic.View):
 
     # Данные
 
-    def get_resource(self, HttpRequest, params):
+    def getResource(self, HttpRequest, params):
         stream = Stream(HttpRequest, params)
 
-        input_key, field_key = self.get_keys(self.key)
+        input_key, field_key = self.getKeys(self.key)
 
         try:
             query = {
@@ -165,7 +165,7 @@ class BaseAPI(generic.View):
         return stream
 
 
-    def get_collection(self, HttpRequest, params):
+    def getCollection(self, HttpRequest, params):
         stream = Stream(HttpRequest, params)
 
         stream.response = self.model.objects
@@ -173,7 +173,7 @@ class BaseAPI(generic.View):
         # Проверка и вся хуйня
 
         # Фильтры
-        filters = self.get_filters(stream)
+        filters = self.getFilters(stream)
         stream.response = stream.response.filter(**filters)
 
 #        print('... filters', filters)
@@ -204,7 +204,7 @@ class BaseAPI(generic.View):
 
         return stream
 
-    def get_keys(self, string):
+    def getKeys(self, string):
 #            line = re.search(r'\s-[d]*$', string)
 #            line = re.sub(r'\s-[d]*', '', string)
 #            print('..', line)
@@ -255,7 +255,7 @@ class BaseAPI(generic.View):
 
         for item in schema:
             if type(item) == str:
-                orig, view = self.get_keys(item)
+                orig, view = self.getKeys(item)
                 if prefix:
                     orig = prefix + orig
 
@@ -263,7 +263,7 @@ class BaseAPI(generic.View):
                 data[view] = get_attr_by_path(resource, path)
 
             elif type(item) == tuple:
-                orig, view = self.get_keys(item[0])
+                orig, view = self.getKeys(item[0])
                 keys = item[1]
                 model = getattr(resource, orig)
 
@@ -343,14 +343,15 @@ class BaseAPI(generic.View):
         return data
 
     def get_exported_resource(self, HttpRequest, params):
-        stream = self.get_resource(HttpRequest, params)
+        stream = self.getResource(HttpRequest, params)
         stream.data = self.export(stream.response)
         return stream
 
     def get_exported_collection(self, HttpRequest, params):
-        stream = self.get_collection(HttpRequest, params)
+        stream = self.getCollection(HttpRequest, params)
         stream.data = self.export(stream.response)
         return stream
+
 
 class ResourceMixin:
 #     def __init__(self):
@@ -361,7 +362,7 @@ class ResourceMixin:
         pass
 
     '''Ресурс'''
-    @convert_to_json
+    @convertToJSON
     def get(self, HttpRequest, **kwargs):
         stream = self.get_exported_resource(HttpRequest, kwargs)
         return stream
@@ -381,7 +382,7 @@ class CollectionMixin:
         pass
 
     '''Коллекция'''
-    @convert_to_json
+    @convertToJSON
     def get(self, HttpRequest, **kwargs):
         stream = self.get_exported_collection(HttpRequest, kwargs)
         return stream

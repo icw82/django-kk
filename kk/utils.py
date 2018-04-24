@@ -75,3 +75,27 @@ def export_to_json(method):
         return json_response(data)
 
     return wrapper
+
+
+# T E M P
+from django.urls import path
+
+def makeURLs(name, CollectionView, ResourceView):
+    patterns = []
+
+    patterns.append(
+        path(
+            '{}/'.format(name),
+             CollectionView.as_api()
+        )
+    )
+
+    patterns.append(
+        path(
+            '{}/<int:id>/'.format(name),
+            ResourceView.as_api()
+        )
+    )
+
+    return patterns
+

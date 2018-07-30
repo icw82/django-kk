@@ -82,7 +82,7 @@ def convertToJSON(method):
     return wrapper
 
 
-class BaseAPI(generic.View):
+class Base(generic.View):
     model = None
     key = 'id'
 #    data = None
@@ -109,9 +109,21 @@ class BaseAPI(generic.View):
     available_filters = []
     dynamic_filters = {}
     def getFilters(self, stream):
-        filters = {
-            'status': True,
-        }
+#        print('- - - - - - - - -')
+#        print('- - - - - - - - -')
+#        print(self.model)
+#        print('- - - - - - - - -')
+#        print('- - - - - - - - -')
+
+        filters = {}
+
+        try:
+            field = self.model._meta.get_field('status')
+            filters.update({
+                'status': True
+            })
+        except FieldDoesNotExist:
+            pass
 
         #stream.user.is_staff or stream.user.is_superuser
         try:
@@ -219,7 +231,7 @@ class BaseAPI(generic.View):
     def export__resource(self, resource, schema = None, prefix = None):
         data = {};
         if type(schema) != tuple:
-            schema = self.exported_data
+            schema = self.scheme
 
         def get_attr_by_path(resource, path):
             key = path.pop(0)
@@ -306,7 +318,7 @@ class BaseAPI(generic.View):
     # Конвертирование данных для выдачи
     def export(self, response, schema = None):
         if isinstance(response, QuerySet):
-            if not self.exported_data:
+            if not self.scheme:
                 return None
 
             data = []
@@ -333,7 +345,7 @@ class BaseAPI(generic.View):
                     data.append(item)
 
         elif isinstance(response, Model):
-            if not self.exported_data:
+            if not self.scheme:
                 return None
 
             data = self.export__resource(response, schema);
@@ -390,3 +402,53 @@ class CollectionMixin:
     '''Новый ресурс в коллекции'''
     def post(self, HttpRequest, *args, **kwargs):
         pass
+
+from django.urls import path
+
+
+class Scheme:
+    pass
+
+
+class API():
+    model = None
+    name = None
+    scheme = []
+#    filters = {}
+#    order = []
+
+    def __init__(self, Model):
+        self.model = Model
+        self.name = Model.KK.name_plural
+        self.scheme = Model.KK.scheme
+
+        class Mixin(Base):
+            model = self.model
+            scheme = self.scheme
+
+        class ResourceView(Mixin, ResourceMixin): pass
+        class CollectionView(Mixin, CollectionMixin):pass
+
+        self.Mixin = Mixin;
+        self.ResourceView = ResourceView;
+        self.CollectionView = CollectionView;
+
+
+    def getUrlPatterns(self):
+        patterns = []
+
+        patterns.append(
+            path(
+                '{}/<int:id>/'.format(self.name),
+                self.ResourceView.as_api()
+            )
+        )
+
+        patterns.append(
+            path(
+                '{}/'.format(self.name),
+                 self.CollectionView.as_api()
+            )
+        )
+
+        return patterns
